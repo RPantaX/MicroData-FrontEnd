@@ -1,7 +1,7 @@
 import { useReducer, useState } from "react";
 import { productReducer } from "../reducers/productReducer";
 import Swal from "sweetalert2";
-import { findAll } from "../services/productService";
+import { findAll, save, update } from "../services/productService";
 
 const initialProduct = [];
   const initialProductForm={
@@ -17,7 +17,6 @@ export const useProduct = () => {
     const [productSelected, setProductSelected] = useState(initialProductForm);
     const [visibleForm, setVisibleForm] = useState(false);
 
-  
     const getProducts = async()=>{
       const result = await findAll();
       dispatch({
@@ -25,7 +24,8 @@ export const useProduct = () => {
         payload: result.data,
       });
     }
-    const handlerAddProduct = (prod)=>{
+    const handlerAddProduct = async (prod)=>{
+      let response;
       Swal.fire({
         title: (prod.id=='') ? '¿Estás seguro que deseas crear este producto?': '¿Estás seguro que deseas actualizar este producto?',
         text: "Tú no podrás revertir los cambios!",
@@ -34,12 +34,15 @@ export const useProduct = () => {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: (prod.id=='')?'Sí, crear!':"Sí, actualizar!"
-      }).then((result) => {
+      }).then( async(result) => {
         if (result.isConfirmed) {
-            dispatch({
-                type: (prod.id===0) ? 'addProduct':'updateProduct',
-                payload: prod
-              });
+          if(prod.id===''){
+            response = await save(prod);
+          } else response = await update(prod);
+          dispatch({
+              type: (prod.id==='') ? 'addProduct':'updateProduct',
+              payload: response.data
+            });
           Swal.fire({
             title: (prod.id=='')?'creado':"actualizado",
             text: (prod.id=='')?'El producto ha sido creado':"El producto ha sido actualizado",
