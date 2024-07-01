@@ -91,6 +91,7 @@ export const ProductForm = ({ initialProductForm, handlerCloseForm}) => {
         )}
       </div>
       <div className="form-group">
+        Precio
         <input
           className={`form-control my-3 w-75 ${
             errors.precio ? "is-invalid" : ""
@@ -110,6 +111,7 @@ export const ProductForm = ({ initialProductForm, handlerCloseForm}) => {
         )}
       </div>
       <div className="form-group">
+        Stock
         <input
           className={`form-control my-3 w-75 ${
             errors.stock ? "is-invalid" : ""
