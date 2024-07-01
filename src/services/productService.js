@@ -20,12 +20,9 @@ export const save = async({nombreProducto, descripcion, precio, stock})=>{
     }
     return undefined;
 }
-export const update = async({id, nombreProducto, descripcion, precio, stock})=>{
+export const update = async(id, stock)=>{
     try {
         return axios.put(`${BASE_URL}product/${id}/stock`,{
-            nombreProducto,
-            descripcion,
-            precio,
             stock
         });
     } catch (error) {

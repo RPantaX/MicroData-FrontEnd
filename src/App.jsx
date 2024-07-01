@@ -3,6 +3,8 @@ import './App.css'
 import { ProductModalForm } from './components/ProductModalForm';
 import { ProductsList } from './components/ProductsList'
 import { ProductContext } from './context/ProductContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 function App() {
   const {
@@ -30,7 +32,8 @@ function App() {
               {visibleForm || <button
               className='btn btn-primary my-2'
               onClick={handlerOpenForm}>
-                Nuevo Producto
+                <FontAwesomeIcon icon={faPlus} />
+                <span className="ms-2">Nuevo Producto</span>
               </button> }
               
               {products.length ===0

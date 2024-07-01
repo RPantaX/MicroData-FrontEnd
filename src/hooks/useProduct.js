@@ -36,16 +36,27 @@ export const useProduct = () => {
         confirmButtonText: (prod.id=='')?'Sí, crear!':"Sí, actualizar!"
       }).then( async(result) => {
         if (result.isConfirmed) {
-          if(prod.id===''){
+          if (prod.id === '') {
             response = await save(prod);
-          } else response = await update(prod);
-          dispatch({
-              type: (prod.id==='') ? 'addProduct':'updateProduct',
-              payload: response.data
-            });
+            if (response) {
+              dispatch({
+                type: 'addProduct',
+                payload: response.data
+              });
+            }
+          } else {
+              // Actualizar solo el stock
+              response = await update(prod.id, prod.stock);
+              if (response && response.status === 200) {
+                dispatch({
+                  type: 'updateProduct',
+                  payload: { id: prod.id, stock: response.data.newStock }
+                });
+              }
+          }
           Swal.fire({
-            title: (prod.id=='')?'creado':"actualizado",
-            text: (prod.id=='')?'El producto ha sido creado':"El producto ha sido actualizado",
+            title: (prod.id === '') ? 'creado' : "actualizado",
+            text: (prod.id === '') ? 'El producto ha sido creado' : "El producto ha sido actualizado",
             icon: "success"
           });
         }

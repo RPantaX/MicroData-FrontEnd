@@ -3,16 +3,18 @@ export const productReducer = (state = [], action) => {
   switch (action.type){
     case 'addProduct':
         return[
-            ...state,
-            {
-                ...action.payload,
-            }
+          {
+            ...action.payload,
+          },
+            ...state
         ]
     case 'updateProduct':
-        return state.map(p=>{
-          if(p.id === action.payload.id) return {...action.payload};
-          return p;
-        })
+      return state.map(p => {
+        if (p.id === action.payload.id) {
+          return { ...p, stock: action.payload.stock };
+        }
+        return p;
+      });
     case 'loadingProducts':
       return action.payload;
     default:

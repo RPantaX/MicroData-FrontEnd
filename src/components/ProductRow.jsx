@@ -1,5 +1,7 @@
 import { useContext } from "react"
 import { ProductContext } from "../context/ProductContext"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 export const ProductRow = ({id, nombreProducto, descripcion, precio, stock}) => {
   const {handlerProductSelectedForm} = useContext(ProductContext);
@@ -22,7 +24,8 @@ export const ProductRow = ({id, nombreProducto, descripcion, precio, stock}) => 
             stock
           })}
         >
-            actualizar
+            <FontAwesomeIcon icon={faPenToSquare} className="mr-2" />
+            <span className="text-center ms-1">Actualizar</span>
         </button>
       </td>
     </tr>
